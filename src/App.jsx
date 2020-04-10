@@ -1,43 +1,68 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import NewScreen from './views/screens/NewScreen'
-import TableProduct from './views/components/TableProduct'
+import './bootstrap.css';
+import ProductCard from './views/components/ProductCard';
+import Brave from './brave.png'
+import Crazy from './crazyRich.png'
+import Handmaid from './handmaid.png'
+import Educated from './educated.png'
 
 function App() {
-  // let arr = ["Bandung","Jakarta","Tangerang"]
-  // const renderArr = () => {
-  //   return arr.map(val => {
-  //     return (
-  //     <>
-  //     <p>{val}
-  //     </p>
-  //     <NewScreen/>
-  //     </>
-  //     )
-  //   })
-  // }
+
+  const renderArr = () => {
+    return arrBooks.map(val => {
+      return (
+      <ProductCard productData = {val}/>
+      )
+    })
+  }
+  let arrBooks = [
+    {
+      author: "Margaret Atwood",
+      title: "The handmaid's tale",
+      review: 4,
+      desc: `This novel can be interpreted as a double narrative, Offred's tale and the handmaids' tales. The night...`,
+      price: 18.99,
+      discount: 60,
+      image: Handmaid,
+      stock: 7,
+    },
+    {
+      author: "Kevin Kwan",
+      title: "Crazy rich asians",
+      review: 5,
+      desc: `the outrageously funny debut novel about three super-rich, pedigreed Chinese families and the gossip...`,
+      price: 24.12,
+      discount: 80,
+      image: Crazy,
+      stock: 0,
+    },
+    {
+      author: "Aldous Huxley",
+      title: "Brave new world",
+      review: 3,
+      desc: `dystopian novel written in 1931 by English author Aldous Huxley, and published in 1932. Largely set in...`,
+      price: 18.99,
+      discount: 60,
+      image: Brave,
+      stock: 3,
+    },
+    {
+      author: "Tara Westover",
+      title: "Educated",
+      review: 4.5,
+      desc: `It is a tale of fierce family loyalty and of the grief that comes with severing the closest of ties. With...`,
+      price: 34.21,
+      discount: 0,
+      image: Educated,
+      stock: 3,
+    },
+  ];
   return (
     <div className="App">
-
-      <h1 className='text-class'>Hello Wolrd</h1>
-      <h2 style={{border: '1px solid red',marginTop: '30px'}}>Test Styling</h2>
-      {/* {renderArr()} */}
-      <TableProduct/>
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
+      <div className="row">
+      {renderArr()}
+      </div>
     </div>
   );
 }
