@@ -6,6 +6,8 @@ import Brave from './brave.png'
 import Crazy from './crazyRich.png'
 import Handmaid from './handmaid.png'
 import Educated from './educated.png'
+import CounterScreen from './views/screens/CounterScreen';
+import InputScreen from './views/screens/InputScreen';
 
 function App() {
 
@@ -60,9 +62,11 @@ function App() {
   ];
   return (
     <div className="App">
-      <div className="row">
+      {/* <div className="row">
       {renderArr()}
-      </div>
+      </div> */}
+      {/* <CounterScreen/> */}
+      <InputScreen/>
     </div>
   );
 }
