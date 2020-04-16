@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter, Route, Switch , withRouter } from 'react-router-dom'
 import './App.css';
 import './bootstrap.css';
 import ProductCard from './views/components/ProductCard';
@@ -8,13 +9,20 @@ import Handmaid from './handmaid.png'
 import Educated from './educated.png'
 import CounterScreen from './views/screens/CounterScreen';
 import InputScreen from './views/screens/InputScreen';
+import InputScreen2 from './views/screens/InputScreen2';
+import AuthScreen from './views/screens/AuthScreen';
+import LifecycleScreen from './views/screens/LifecycleScreen';
+import HomeScreen from './views/screens/HomeScreen';
+import PageNotFound from './views/screens/PageNotFound';
+import Navbar from './views/components/Navbar';
+import ProfileScreen from './views/screens/ProfileScreen';
 
 function App() {
 
   const renderArr = () => {
     return arrBooks.map(val => {
       return (
-      <ProductCard productData = {val}/>
+        <ProductCard productData={val} />
       )
     })
   }
@@ -61,14 +69,19 @@ function App() {
     },
   ];
   return (
-    <div className="App">
-      {/* <div className="row">
-      {renderArr()}
-      </div> */}
-      {/* <CounterScreen/> */}
-      <InputScreen/>
-    </div>
+   <>
+      <Navbar />
+      <Switch>
+        <Route exact path="/" component={HomeScreen} />
+        <Route exact path="/auth" component={AuthScreen} />
+        <Route exact path="/input" component={InputScreen2} />
+        <Route exact path="/counter" component={CounterScreen} />
+        <Route exact path="/profile/:username" component={ProfileScreen}/>
+        <Route path="*" component={PageNotFound} />
+      </Switch>
+   </>
+
   );
 }
 
-export default App;
+export default withRouter(App);
