@@ -1,5 +1,7 @@
 import React from "react";
 import { Link, Redirect } from 'react-router-dom'
+import Axios from 'axios'
+import { API_URL } from '../../constants/API'
 
 
 class AuthScreen extends React.Component {
@@ -7,6 +9,8 @@ class AuthScreen extends React.Component {
     username: "",
     password: "",
     repPassword: "",
+    role: "",
+    fullName: "",
     isLoggedIn: false,
     users: [],
     loginUsername: "",
@@ -61,6 +65,74 @@ class AuthScreen extends React.Component {
       }
     }
   };
+
+  postDataHandler = () => {
+    const { repPassword, password, username, users, role, fullName } = this.state;
+    Axios.get(`${API_URL}/users`, {
+      params: {
+        username : username.toLowerCase(),
+        
+      }
+    })
+      .then((res) => {
+        console.log(res)
+        if (res.data.length >= 1 ) {
+          alert("username tidak boleh sama")
+        } else {
+          Axios.post(`${API_URL}/users`,{
+            username : username.toLowerCase(),
+            password,
+            role,
+            fullName
+          })
+          this.setState({
+            username: "",
+            password: "",
+            repPassword: "",
+            role: "",
+            fullName: ""
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  getDataHandler = () => {
+    const { repPassword, password, username, users, role, fullName, isLoggedIn } = this.state;
+    //Request Get by Id
+    //Idnya diletakkan setelah '/' milik nama table
+    // Axios.get('http://localhost:3001/users/1')
+    //     .then((res) => { //res = response dari API
+    //         console.log(res.data)
+    //         this.setState({ usersList: res.data })
+    //     })
+    //     .catch((err) => {
+    //         console.log(err)
+    //     })
+
+    Axios.get('http://localhost:3001/users', {
+      // query params
+      params: {
+        username: username.toLowerCase(),
+        password: password
+      }
+    })
+      .then((res) => { //res = response dari API
+        console.log(res)
+        if (res.data.length >= 1) {
+          this.setState({
+            isLoggedIn: true,
+          })
+        }else{
+          alert("password salah")
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
 
   deleteHandler = (idx) => {
     const { users } = this.state;
@@ -122,6 +194,8 @@ class AuthScreen extends React.Component {
       username,
       password,
       repPassword,
+      role,
+      fullName,
       isLoggedIn,
       users,
       currentUsername,
@@ -133,7 +207,7 @@ class AuthScreen extends React.Component {
     if (!isLoggedIn) {
       return (
         <div>
-          <h1>Auth Screen</h1>
+          <hr />
           <center className="container">
             <div className="card p-5" style={{ width: "400px" }}>
               <h4>Register</h4>
@@ -159,10 +233,24 @@ class AuthScreen extends React.Component {
                 onChange={(e) => this.inputHandler(e, "repPassword")}
               />
               <input
+                value={role}
+                className="form-control mt-2"
+                type="text"
+                placeholder="Role"
+                onChange={(e) => this.inputHandler(e, "role")}
+              />
+              <input
+                value={fullName}
+                className="form-control mt-2"
+                type="text"
+                placeholder="Full Name"
+                onChange={(e) => this.inputHandler(e, "fullName")}
+              />
+              <input
                 type="button"
                 value="Register"
                 className="btn btn-primary mt-3"
-                onClick={this.registerHandler}
+                onClick={this.postDataHandler}
               />
             </div>
             {/* <table className="table">
@@ -176,35 +264,35 @@ class AuthScreen extends React.Component {
               <tbody>{this.renderUsers()}</tbody>
             </table> */}
             <div className="card p-5" style={{ width: "400px" }}>
-            <h4>Login</h4>
-            <input
-              value={loginUsername}
-              className="form-control mt-2"
-              type="text"
-              placeholder="Username"
-              onChange={(e) => this.inputHandler(e, "loginUsername")}
-            />
-            <input
-              value={loginPassword}
-              className="form-control mt-2"
-              type="text"
-              placeholder="Password"
-              onChange={(e) => this.inputHandler(e, "loginPassword")}
-            />
-            <input
-              type="button"
-              value="Login"
-              className="btn btn-primary mt-3"
-              onClick={this.loginHandler}
-            />
-          </div>
-          {isLoggedIn ? <h2>Welcome {currentUsername}</h2> : null}
+              <h4>Login</h4>
+              <input
+                value={username}
+                className="form-control mt-2"
+                type="text"
+                placeholder="Username"
+                onChange={(e) => this.inputHandler(e, "username")}
+              />
+              <input
+                value={password}
+                className="form-control mt-2"
+                type="text"
+                placeholder="Password"
+                onChange={(e) => this.inputHandler(e, "password")}
+              />
+              <input
+                type="button"
+                value="Login"
+                className="btn btn-primary mt-3"
+                onClick={this.getDataHandler}
+              />
+            </div>
+            {isLoggedIn ? <h2>Welcome {currentUsername}</h2> : null}
           </center>
         </div>
       );
     } else {
-      return <Redirect to={`/profile/${currentUsername}`}/>
-  }
+      return <Redirect to={`/profile/${username}`} />
+    }
   }
 }
 

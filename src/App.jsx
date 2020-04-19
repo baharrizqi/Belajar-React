@@ -11,10 +11,13 @@ import CounterScreen from './views/screens/CounterScreen';
 import InputScreen from './views/screens/InputScreen';
 import InputScreen2 from './views/screens/InputScreen2';
 import AuthScreen from './views/screens/AuthScreen';
+import RegisterScreen from './views/screens/RegisterScreen';
+import LoginScreen from './views/screens/LoginScreen';
 import LifecycleScreen from './views/screens/LifecycleScreen';
 import HomeScreen from './views/screens/HomeScreen';
 import PageNotFound from './views/screens/PageNotFound';
 import Navbar from './views/components/Navbar';
+import NavbarTemp from './views/components/NavbarTemp';
 import ProfileScreen from './views/screens/ProfileScreen';
 
 function App() {
@@ -70,11 +73,13 @@ function App() {
   ];
   return (
    <>
-      <Navbar />
+      <NavbarTemp/>
       <Switch>
         <Route exact path="/" component={HomeScreen} />
         <Route exact path="/auth" component={AuthScreen} />
         <Route exact path="/input" component={InputScreen2} />
+        <Route exact path="/register" component={RegisterScreen} />
+        <Route exact path="/login" component={LoginScreen} />
         <Route exact path="/counter" component={CounterScreen} />
         <Route exact path="/profile/:username" component={ProfileScreen}/>
         <Route path="*" component={PageNotFound} />

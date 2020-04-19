@@ -4,7 +4,28 @@ import { API_URL } from '../../constants/API'
 
 export default class ProfileScreen extends Component {
     state = {
-        usersList: []
+        usersList: [],
+        role : "",
+        fullName : ""
+
+    }
+    componentDidMount() {
+        Axios.get('http://localhost:3001/users', {
+            params: {
+                username: this.props.match.params.username
+            }
+        })
+        .then((res) => {
+            this.setState({usersList:res.data})
+            this.setState({
+                name : this.state.usersList[0].username,
+                fullName : this.state.usersList[0].fullName,
+                role : this.state.usersList[0].role
+            })
+        })
+        .catch((err)=> {
+            console.log(err)
+        })
     }
     getDataHandler = () => {
         //Request Get by Id
@@ -50,20 +71,22 @@ export default class ProfileScreen extends Component {
             role: "admin",
             fullName: "Bill bil"
         })
-        .then((res)=> {
-            console.log(res)
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+            .then((res) => {
+                console.log(res)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     }
 
     render() {
         return (
-            <div className="container">
+            <div className="container card p-4">
                 <h1>Profile</h1>
                 <h2>Welcome , {this.props.match.params.username}</h2>
-                <input
+                <h3>Role : {this.state.username} {this.state.role}</h3>
+                <h3>Full Name :{this.state.username} {this.state.fullName}</h3>
+                {/* <input
                     type="button"
                     className="btn btn-success"
                     value="Get data"
@@ -77,7 +100,7 @@ export default class ProfileScreen extends Component {
                     type="button"
                     className="btn btn-info"
                     value="Post data"
-                    onClick={this.postDataHandler} />
+                    onClick={this.postDataHandler} /> */}
             </div>
         )
     }

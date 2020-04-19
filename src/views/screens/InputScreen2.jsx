@@ -15,7 +15,7 @@ class InputScreen2 extends React.Component {
 
         return (
             <div>
-                <h1>Auth Screen</h1>
+                <hr/>
                 <div className="container" style={{border: "1px solid black", width: "500px"}}>
                 <h2 className="mt-4">Register</h2>
                 <h3>Username : {username}</h3>
