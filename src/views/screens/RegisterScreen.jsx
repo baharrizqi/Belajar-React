@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import Axios from 'axios'
 import { API_URL } from '../../constants/API'
+import swal from 'sweetalert'
+import {Spinner} from 'reactstrap'
 
 export default class RegisterScreen extends Component {
     state = {
@@ -9,7 +11,6 @@ export default class RegisterScreen extends Component {
         password: "",
         role: "",
         fullName: "",
-        isLoggedIn: false,
     };
     inputHandler = (e, field) => {
         this.setState({ [field]: e.target.value });
@@ -25,7 +26,7 @@ export default class RegisterScreen extends Component {
             .then((res) => {
                 console.log(res)
                 if (res.data.length >= 1) {
-                    alert("username tidak boleh sama")
+                    swal("","username tidak boleh sama","error")
                 } else {
                     Axios.post(`${API_URL}/users`, {
                         username: username.toLowerCase(),
@@ -33,12 +34,18 @@ export default class RegisterScreen extends Component {
                         role,
                         fullName
                     })
-                    this.setState({
-                        username: "",
-                        password: "",
-                        role: "",
-                        fullName: ""
-                    });
+                    .then((res) =>{
+                        this.setState({
+                            username: "",
+                            password: "",
+                            role: "",
+                            fullName: ""
+                        });
+                        swal("",`Akun Anda telah terdaftar`,"success")
+                    })
+                    .catch((err)=> {
+                        swal("Terjadi kelasahan di server")
+                    })
                 }
             })
             .catch((err) => {
