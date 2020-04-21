@@ -11,7 +11,8 @@ class NavbarTemp extends Component {
                 <Link to="/register">Register</Link>
                 <Link to="/login">Login</Link>
                 <Link to="/">&#128527;</Link>
-                {this.props.todo.todoInput}
+                {/* {this.props.todo.todoInput} */}
+                {this.props.user}
             </div>
         )
     }
@@ -20,6 +21,7 @@ class NavbarTemp extends Component {
 const mapStateToProps = (state) => {
     return{
         todo: state.haha,
+        user: state.user.namaUser
     }
 }
 

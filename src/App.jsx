@@ -17,6 +17,7 @@ import LifecycleScreen from './views/screens/LifecycleScreen';
 import HomeScreen from './views/screens/HomeScreen';
 import PageNotFound from './views/screens/PageNotFound';
 import Navbar from './views/components/Navbar';
+import TodoReduxScreen from './views/screens/TodoReduxScreen';
 import NavbarTemp from './views/components/NavbarTemp';
 import ProfileScreen from './views/screens/ProfileScreen';
 
@@ -81,6 +82,7 @@ function App() {
         <Route exact path="/register" component={RegisterScreen} />
         <Route exact path="/login" component={LoginScreen} />
         <Route exact path="/counter" component={CounterScreen} />
+        <Route exact path="/todo" component={TodoReduxScreen} />
         <Route exact path="/profile/:username" component={ProfileScreen}/>
         <Route path="*" component={PageNotFound} />
       </Switch>
