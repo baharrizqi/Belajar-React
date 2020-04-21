@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import Axios from 'axios'
 import { API_URL } from '../../constants/API'
+import { connect } from "react-redux";
+import {usernameInputHandler} from '../../redux/actions'
 
-export default class ProfileScreen extends Component {
+class ProfileScreen extends Component {
     state = {
         usersList: [],
-        role : "",
-        fullName : ""
+        role: "",
+        fullName: ""
 
     }
     componentDidMount() {
@@ -15,17 +17,18 @@ export default class ProfileScreen extends Component {
                 username: this.props.match.params.username
             }
         })
-        .then((res) => {
-            this.setState({usersList:res.data})
-            this.setState({
-                name : this.state.usersList[0].username,
-                fullName : this.state.usersList[0].fullName,
-                role : this.state.usersList[0].role
+            .then((res) => {
+                this.setState({ usersList: res.data })
+                this.setState({
+                    name: this.state.usersList[0].username,
+                    fullName: this.state.usersList[0].fullName,
+                    role: this.state.usersList[0].role
+                })
+                this.props.usernameInputHandler(this.state.name)
             })
-        })
-        .catch((err)=> {
-            console.log(err)
-        })
+            .catch((err) => {
+                console.log(err)
+            })
     }
     getDataHandler = () => {
         //Request Get by Id
@@ -105,3 +108,11 @@ export default class ProfileScreen extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+      user: state.user.namaUser
+    };
+  };
+
+export default connect(mapStateToProps,{usernameInputHandler})(ProfileScreen);
