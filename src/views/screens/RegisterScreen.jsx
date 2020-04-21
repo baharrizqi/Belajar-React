@@ -11,12 +11,15 @@ export default class RegisterScreen extends Component {
         password: "",
         role: "",
         fullName: "",
+        isLoading: false,
     };
     inputHandler = (e, field) => {
         this.setState({ [field]: e.target.value });
     };
     postDataHandler = () => {
         const { password, username, role, fullName } = this.state;
+        this.setState({ isLoading: true });
+        setTimeout(() => {
         Axios.get(`${API_URL}/users`, {
             params: {
                 username: username.toLowerCase(),
@@ -27,6 +30,7 @@ export default class RegisterScreen extends Component {
                 console.log(res)
                 if (res.data.length >= 1) {
                     swal("","username tidak boleh sama","error")
+                    this.setState({ isLoading: false });
                 } else {
                     Axios.post(`${API_URL}/users`, {
                         username: username.toLowerCase(),
@@ -42,15 +46,19 @@ export default class RegisterScreen extends Component {
                             fullName: ""
                         });
                         swal("",`Akun Anda telah terdaftar`,"success")
+                        this.setState({ isLoading: false });
                     })
                     .catch((err)=> {
                         swal("Terjadi kelasahan di server")
+                        this.setState({ isLoading: false });
                     })
                 }
             })
             .catch((err) => {
                 console.log(err)
+                this.setState({ isLoading: false });
             })
+        },1500)
     }
     render() {
         const {
@@ -98,6 +106,7 @@ export default class RegisterScreen extends Component {
                             value="Register"
                             className="btn btn-primary mt-3"
                             onClick={this.postDataHandler}
+                            disabled={this.state.isLoading}
                         />
                     </div>
                 </center>
