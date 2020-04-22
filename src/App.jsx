@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch , withRouter } from 'react-router-dom'
+import { BrowserRouter, Route, Switch, withRouter } from 'react-router-dom'
+import Cookie from 'universal-cookie'
 import './App.css';
 import './bootstrap.css';
 import ProductCard from './views/components/ProductCard';
@@ -21,16 +22,10 @@ import TodoReduxScreen from './views/screens/TodoReduxScreen';
 import NavbarTemp from './views/components/NavbarTemp';
 import ProfileScreen from './views/screens/ProfileScreen';
 
-function App() {
+const cookieObject = new Cookie()
 
-  const renderArr = () => {
-    return arrBooks.map(val => {
-      return (
-        <ProductCard productData={val} />
-      )
-    })
-  }
-  let arrBooks = [
+class App extends React.Component {
+  arrBooks = [
     {
       author: "Margaret Atwood",
       title: "The handmaid's tale",
@@ -72,9 +67,19 @@ function App() {
       stock: 3,
     },
   ];
+
+  renderArr = () => {
+    return this.arrBooks.map(val => {
+      return (
+        <ProductCard productData={val} />
+      )
+    })
+  }
+
+render(){
   return (
-   <>
-      <NavbarTemp/>
+    <>
+      <NavbarTemp />
       <Switch>
         <Route exact path="/" component={HomeScreen} />
         <Route exact path="/auth" component={AuthScreen} />
@@ -83,12 +88,13 @@ function App() {
         <Route exact path="/login" component={LoginScreen} />
         <Route exact path="/counter" component={CounterScreen} />
         <Route exact path="/todo" component={TodoReduxScreen} />
-        <Route exact path="/profile/:username" component={ProfileScreen}/>
+        <Route exact path="/profile/:username" component={ProfileScreen} />
         <Route path="*" component={PageNotFound} />
       </Switch>
-   </>
+    </>
 
   );
+}
 }
 
 export default withRouter(App);

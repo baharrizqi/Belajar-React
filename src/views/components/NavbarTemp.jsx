@@ -21,7 +21,7 @@ class NavbarTemp extends Component {
 const mapStateToProps = (state) => {
     return {
         todo: state.haha,
-        user: state.user.namaUser
+        user: state.user.username
     }
 }
 

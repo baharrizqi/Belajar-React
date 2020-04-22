@@ -111,7 +111,8 @@ class ProfileScreen extends Component {
 
 const mapStateToProps = (state) => {
     return {
-      user: state.user.namaUser
+    //   user: state.user.namaUser,
+    //   todo: state.haha.todoInput
     };
   };
 
