@@ -4,8 +4,10 @@ import Axios from 'axios'
 import { API_URL } from '../../constants/API'
 import swal from 'sweetalert'
 import {Spinner} from 'reactstrap'
+import {connect} from 'react-redux'
+import {regisHandler} from '../../redux/actions'
 
-export default class RegisterScreen extends Component {
+class RegisterScreen extends Component {
     state = {
         username: "",
         password: "",
@@ -16,49 +18,61 @@ export default class RegisterScreen extends Component {
     inputHandler = (e, field) => {
         this.setState({ [field]: e.target.value });
     };
-    postDataHandler = () => {
-        const { password, username, role, fullName } = this.state;
-        this.setState({ isLoading: true });
-        setTimeout(() => {
-        Axios.get(`${API_URL}/users`, {
-            params: {
-                username: username.toLowerCase(),
+    // postDataHandler = () => {
+    //     const { password, username, role, fullName } = this.state;
+    //     this.setState({ isLoading: true });
+    //     setTimeout(() => {
+    //     Axios.get(`${API_URL}/users`, {
+    //         params: {
+    //             username: username.toLowerCase(),
 
-            }
-        })
-            .then((res) => {
-                console.log(res)
-                if (res.data.length >= 1) {
-                    swal("","username tidak boleh sama","error")
-                    this.setState({ isLoading: false });
-                } else {
-                    Axios.post(`${API_URL}/users`, {
-                        username: username.toLowerCase(),
-                        password,
-                        role,
-                        fullName
-                    })
-                    .then((res) =>{
-                        this.setState({
-                            username: "",
-                            password: "",
-                            role: "",
-                            fullName: ""
-                        });
-                        swal("",`Akun Anda telah terdaftar`,"success")
-                        this.setState({ isLoading: false });
-                    })
-                    .catch((err)=> {
-                        swal("Terjadi kelasahan di server")
-                        this.setState({ isLoading: false });
-                    })
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-                this.setState({ isLoading: false });
-            })
-        },1500)
+    //         }
+    //     })
+    //         .then((res) => {
+    //             console.log(res)
+    //             if (res.data.length >= 1) {
+    //                 swal("","username tidak boleh sama","error")
+    //                 this.setState({ isLoading: false });
+    //             } else {
+    //                 Axios.post(`${API_URL}/users`, {
+    //                     username: username.toLowerCase(),
+    //                     password,
+    //                     role,
+    //                     fullName
+    //                 })
+    //                 .then((res) =>{
+    //                     this.setState({
+    //                         username: "",
+    //                         password: "",
+    //                         role: "",
+    //                         fullName: ""
+    //                     });
+    //                     swal("",`Akun Anda telah terdaftar`,"success")
+    //                     this.setState({ isLoading: false });
+    //                 })
+    //                 .catch((err)=> {
+    //                     swal("Terjadi kelasahan di server")
+    //                     this.setState({ isLoading: false });
+    //                 })
+    //             }
+    //         })
+    //         .catch((err) => {
+    //             console.log(err)
+    //             this.setState({ isLoading: false });
+    //         })
+    //     },1500)
+    // }
+
+    regisHandler = () => {
+        const { password, username, role, fullName } = this.state;
+        const userData = {
+            username,
+            password,
+            role,
+            fullName,
+        }
+        this.props.onRegister(userData)
+
     }
     render() {
         const {
@@ -105,12 +119,25 @@ export default class RegisterScreen extends Component {
                             type="button"
                             value="Register"
                             className="btn btn-primary mt-3"
-                            onClick={this.postDataHandler}
+                            onClick={this.regisHandler}
                             disabled={this.state.isLoading}
                         />
+                        <h3>{this.props.user.username}</h3>
+                        <h3>{this.props.user.errMsg}</h3>
                     </div>
                 </center>
             </div>
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.user,
+    }
+}
+const mapDispatchToProps = {
+    onRegister: regisHandler
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(RegisterScreen)

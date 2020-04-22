@@ -22,34 +22,6 @@
       "role": "admin",
       "fullName": "Bill bil",
       "id": 3
-    },
-    {
-      "username": "seto1",
-      "password": "",
-      "role": "",
-      "fullName": "",
-      "id": 4
-    },
-    {
-      "username": "seto2",
-      "password": "",
-      "role": "",
-      "fullName": "",
-      "id": 5
-    },
-    {
-      "username": "seto3",
-      "password": "",
-      "role": "",
-      "fullName": "",
-      "id": 6
-    },
-    {
-      "username": "bahri",
-      "password": "pass",
-      "role": "role",
-      "fullName": "full",
-      "id": 7
     }
   ]
 }
