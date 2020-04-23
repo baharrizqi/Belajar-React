@@ -5,6 +5,9 @@ import { connect } from 'react-redux'
 import { API_URL } from '../../constants/API'
 import { loginHandler } from '../../redux/actions'
 import swal from 'sweetalert'
+import Cookie from 'universal-cookie'
+
+const cookieObject = new Cookie()
 
 class LoginScreen extends Component {
     state = {
@@ -19,12 +22,17 @@ class LoginScreen extends Component {
     };
 
     loginHandler = () => {
-        const { username, password } = this.state
+        const { username, password, isLoggedIn } = this.state
         const userData = {
             username,
             password,
         }
         this.props.onLogin(userData)
+    }
+    componentDidUpdate() {
+        if (this.props.user.id) {
+            cookieObject.set("authData", JSON.stringify(this.props.user))
+        }
     }
     // getDataHandler = () => {
     //     const { password, username, isLoggedIn } = this.state;
@@ -51,8 +59,8 @@ class LoginScreen extends Component {
     // }
 
     render() {
-        const { username, password, isLoggedIn } = this.state
-        if (!isLoggedIn) {
+        const { username, password} = this.state
+        if (!this.props.user.id) {
             return (
                 <div>
                     <center>
@@ -86,7 +94,10 @@ class LoginScreen extends Component {
                 </div>
             )
         } else {
-            return <Redirect to={"/profile/" + username} />
+        return <div className="App">
+            <h3>Hai {this.props.user.fullName}</h3>
+            </div>
+            // <Redirect to={"/profile/" + username} />
         }
     }
 }
@@ -99,4 +110,4 @@ const mapDispatchToProps = {
     onLogin: loginHandler
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(LoginScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen)

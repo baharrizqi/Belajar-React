@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { logoutHandler } from '../../redux/actions'
 
 class NavbarTemp extends Component {
     render() {
@@ -11,8 +12,14 @@ class NavbarTemp extends Component {
                 <Link to="/register">Register</Link>
                 <Link to="/login">Login</Link>
                 <Link to="/">&#128527;</Link>
-                {this.props.todo.todoInput}
+                {/* {this.props.todo.todoInput} */}
                 {this.props.user}
+                <input
+                    type="button"
+                    value="Log Out"
+                    className="btn btn-warning"
+                    onClick={this.props.onLogout}
+                />
             </div>
         )
     }
@@ -25,4 +32,8 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(NavbarTemp)
+const mapDispatchToProps = {
+    onLogout: logoutHandler
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavbarTemp)
