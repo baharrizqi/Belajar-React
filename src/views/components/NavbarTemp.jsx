@@ -14,12 +14,19 @@ class NavbarTemp extends Component {
                 <Link to="/">&#128527;</Link>
                 {/* {this.props.todo.todoInput} */}
                 {this.props.user}
-                <input
+
+                {
+                    
+                    this.props.user? 
+                   ( <input
                     type="button"
                     value="Log Out"
                     className="btn btn-warning"
                     onClick={this.props.onLogout}
-                />
+                />)
+                : null
+                
+                }
             </div>
         )
     }
